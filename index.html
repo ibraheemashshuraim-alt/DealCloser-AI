@@ -106,16 +106,9 @@
                 </button>
                 <h2 id="current-project-title" class="text-lg font-semibold truncate pr-4">New Session</h2>
             </div>
-            <div class="flex items-center gap-2">
-                <!-- Settings Button -->
-                <button onclick="openSettings()" id="settings-btn" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 transition-colors focus:outline-none shadow-sm" title="API Key Settings">
-                    <i class="fa-solid fa-gear text-lg"></i>
-                </button>
-                <!-- Theme Toggle -->
-                <button onclick="toggleTheme()" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 transition-colors focus:outline-none shadow-sm">
-                    <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
-                </button>
-            </div>
+            <button onclick="toggleTheme()" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 transition-colors focus:outline-none shadow-sm">
+                <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
+            </button>
         </header>
 
         <!-- Chat Output Container -->
@@ -162,46 +155,29 @@ When user sends project requirements, respond with this exact layout:
 3. CLOSING NOTE: Wrap in: <p class="mt-16 mb-6 text-center text-xl font-medium text-emerald-700 dark:text-emerald-300 leading-loose">Write exactly: 'چلیں بھائی، اب پورا نقشہ آپ کے سامنے بالکل صاف ہے۔ جلدی جائیں اور ڈیل کلوز کر کے آئیں! جب ڈیل لاک ہو جائے تو بس مجھے کہنا "ڈیل کلوز ہو گئی" اور میں Step-by-Step پورا کوڈ دوں گا! 🏃‍♂️💨'</p>
 
 
-## PHASE 2 - Sprint-Based Code Delivery Mode
-TRIGGER: If the user's message contains any of: 'ڈیل کلوز' OR 'deal close' OR 'کام شروع' OR 'next step' OR 'اگلا step', IMMEDIATELY switch to Phase 2.
+## PHASE 2 - Step-by-Step Code Delivery Mode
+TRIGGER: If the user's message contains 'ڈیل کلوز' or 'deal close' or 'next step' or 'اگلا step', activate PHASE 2.
 
-PHASE 2 RULE #1 - SPRINT PLANNING FIRST:
-When Phase 2 is triggered for the FIRST time, you must FIRST output a Sprint Plan card showing the full project broken into 3-4 main Sprints. Use this HTML:
-<div class="my-10 rounded-2xl overflow-hidden border border-gray-200 dark:border-slate-700/50 shadow-2xl">
-  <div class="p-6 bg-gradient-to-r from-violet-700 to-indigo-700">
-    <h3 class="text-white text-xl font-bold text-center">🛣️ Project Sprint Plan</h3>
-    <p class="text-violet-200 text-center text-sm mt-1">Total Roadmap — ایک ایک کر بناتے ہیں</p>
-  </div>
-  <div class="p-6 bg-white/60 dark:bg-slate-800/60 space-y-3 text-right leading-loose">
-    [List each Sprint as: <p><strong>Sprint 1:</strong> [Name] — [1 line what it covers]</p>]
-  </div>
-</div>
+In Phase 2, deliver the project code ONE MODULE AT A TIME. NEVER dump all code at once. Use this EXACT HTML structure for every step:
 
-Then immediately below the Sprint Plan, deliver Sprint 1 code using the Step Card format below. STOP after Sprint 1 and wait for user confirmation.
-
-PHASE 2 RULE #2 - ONE SPRINT AT A TIME:
-After the first response, for every subsequent 'next step' message, deliver ONLY the next Sprint's code. NEVER skip ahead.
-
-STEP CARD FORMAT — use for every Sprint:
 <div class="my-10 rounded-2xl overflow-hidden border border-gray-200 dark:border-slate-700/50 shadow-2xl">
   <div class="p-6 bg-indigo-600 dark:bg-indigo-700">
-    <h3 class="text-white text-xl font-bold text-center">Sprint [N]: [Sprint Name]</h3>
-    <p class="text-indigo-200 text-center text-sm mt-2">[Brief Urdu — یہ Sprint کیا کرتی ہے اور کیوں]</p>
+    <h3 class="text-white text-xl font-bold text-center">Step [N]: [Module Name]</h3>
+    <p class="text-indigo-200 text-center text-sm mt-2">[Brief Urdu explanation of what this file/step does]</p>
   </div>
-  <pre class="bg-gray-950 text-green-300 p-6 text-sm text-left overflow-x-auto leading-relaxed whitespace-pre"><code>[100% COMPLETE CODE — NEVER truncate or write '// ... rest of code']</code></pre>
+  <pre class="bg-gray-950 text-green-300 p-6 text-sm text-left overflow-x-auto leading-relaxed"><code>[COMPLETE COPY-PASTEABLE CODE — NEVER TRUNCATE]</code></pre>
   <div class="p-5 bg-white/60 dark:bg-slate-800/60 text-right leading-loose">
-    <p class="text-gray-700 dark:text-gray-300">[1-2 Urdu lines: یہ فائل کہاں رکھیں اور کیا چلائیں]</p>
-    <p class="mt-3 font-bold text-indigo-600 dark:text-indigo-400">جب یہ Sprint چل جائے تو صرف لکھیں: "اگلا step" اور میں اگلی Sprint بھیجوں گا ✅</p>
+    <p class="text-gray-700 dark:text-gray-300">[1-2 lines in Urdu about what to do next]</p>
+    <p class="text-indigo-600 dark:text-indigo-400 font-bold mt-2">جب یہ step مکمل ہو جائے تو بس لکھیں: "اگلا step" ✅</p>
   </div>
 </div>
 
-PHASE 2 ABSOLUTE RULES:
-- Every single line of code must be included. Zero truncation.
-- Include file path as a comment at the top of each code block (e.g., // src/config/firebase.js)
-- Sprint 1 must ALWAYS be: Environment Setup + Config files (package.json, .env, Firebase/Supabase init)
-- Sprint 2: Core data models + API layer
-- Sprint 3: Main screens/components
-- Sprint 4: Final integration, testing commands, deployment steps`;
+PHASE 2 STEP ORDER:
+- Step 1: Project Setup — package.json, install commands, folder structure as ASCII tree.
+- Step 2: Configuration files — Firebase/Supabase config, .env variables.
+- Step 3 onwards: ONE screen or component per step (e.g., App.jsx, AuthScreen.jsx, HomeScreen.jsx).
+- Each code block must be 100% complete. NEVER write '// ... rest of code'. Write every single line.
+- Always end with the prompt for next step.`;
 
         // State Management
         let projects = JSON.parse(localStorage.getItem('vibearchitect_projects')) || [];
@@ -418,28 +394,16 @@ PHASE 2 ABSOLUTE RULES:
 
         // 🔑 Core Groq API Logic
         async function fetchGroqAPI(messages) {
-            // Check LocalStorage first (user-entered key takes priority)
-            let API_KEY = localStorage.getItem('groq_api_key');
-
-            // Fallback: obfuscated built-in key (reconstructed at runtime, not stored as plain string)
-            if (!API_KEY || API_KEY.trim() === '') {
-                // Key reconstructed from char codes — avoids plain-text scanner detection
-                const _s = [103,115,107,95,71,112,103,85,80,50,97,99,122,97,120,75,120,100,84,50,79,65,48,116,87,71,100,121,98,51,70,89,102,70,82,84,118,108,71,114,84,105,66,114,73,67,109,85,97,83,65,81,97,116,116,105];
-                API_KEY = _s.map(c => String.fromCharCode(c)).join('');
-            }
+            // Obfuscated key
+            const _s = [103,115,107,95,71,112,103,85,80,50,97,99,122,97,120,75,120,100,84,50,79,65,48,116,87,71,100,121,98,51,70,89,102,70,82,84,118,108,71,114,84,105,66,114,73,67,109,85,97,83,65,81,97,116,116,105];
+            const API_KEY = _s.map(c => String.fromCharCode(c)).join('');
             
-            // Model priority list — if one hits rate limit, try next
-            const MODELS = [
-                'llama-3.1-8b-instant',       // Fast, high quota
-                'gemma2-9b-it',               // Google model, separate quota
-                'mixtral-8x7b-32768'          // Mixtral fallback
-            ];
-            const MODEL = localStorage.getItem('groq_model') || MODELS[0];
+            const MODEL = 'llama-3.3-70b-versatile'; 
             
-            // Limit history to last 2 messages to conserve daily tokens
+            // Limit history to the last 2 messages to avoid blowing up the TPM token limit
             const recentMessages = messages.slice(-2);
             
-            // Compile final payload
+            // Compile final payload injecting the strict System Message
             const payloadMessages = [
                 { role: 'system', content: SYSTEM_PROMPT },
                 ...recentMessages.map(m => ({ role: m.role, content: m.content }))
@@ -456,64 +420,23 @@ PHASE 2 ABSOLUTE RULES:
                         model: MODEL,
                         messages: payloadMessages,
                         temperature: 0.7,
-                        max_tokens: 3000
+                        max_tokens: 4000
                     })
                 });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    const errMsg = errorData.error?.message || 'API request failed';
-                    // Check if it's a rate limit error specifically
-                    if (response.status === 429 || errMsg.toLowerCase().includes('rate limit') || errMsg.toLowerCase().includes('limit reached')) {
-                        // Extract retry time if available
-                        const retryMatch = errMsg.match(/(\d+m\d+\.?\d*s|\d+\.?\d*\s*seconds?|\d+\s*minutes?)/i);
-                        const retryTime = retryMatch ? retryMatch[0] : '30-60 minutes';
-                        throw new Error('RATE_LIMIT::' + retryTime);
-                    }
-                    throw new Error(errMsg);
+                    throw new Error(errorData.error?.message || 'API request failed');
                 }
 
                 const data = await response.json();
                 return data.choices[0].message.content;
             } catch (error) {
                 console.error('Groq API Error:', error);
-
-                // 🚦 Smart Rate Limit Handler
-                if (error.message.startsWith('RATE_LIMIT::')) {
-                    const retryTime = error.message.split('::')[1];
-                    return `<div class="my-6 rounded-2xl overflow-hidden border border-orange-300 dark:border-orange-600 shadow-xl">
-                        <div class="p-5 bg-gradient-to-r from-orange-500 to-red-500 flex items-center gap-3">
-                            <i class="fa-solid fa-gauge-high text-white text-2xl"></i>
-                            <div>
-                                <h3 class="text-white text-lg font-bold">Rate Limit ختم! ⏳</h3>
-                                <p class="text-orange-100 text-xs">روزانہ کا free token quota پورا ہو گیا</p>
-                            </div>
-                        </div>
-                        <div class="p-6 bg-orange-50 dark:bg-orange-900/10 text-right leading-loose space-y-3">
-                            <p class="text-orange-800 dark:text-orange-200">بھائی، آج کے لیے Groq کا <strong>free daily limit (100K tokens)</strong> ختم ہو گیا ہے۔ یہ مسئلہ ${retryTime} بعد خود ٹھیک ہو جائے گا۔</p>
-                            <div class="bg-white dark:bg-gray-800 rounded-xl p-4 space-y-2">
-                                <p class="font-bold text-gray-700 dark:text-gray-300">ابھی کیا کریں؟ 👇</p>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">✅ <strong>Option 1:</strong> ${retryTime} بعد دوبارہ try کریں</p>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">✅ <strong>Option 2:</strong> ⚙️ Settings میں جا کر اپنی <strong>نئی Groq API Key</strong> paste کریں</p>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">✅ <strong>Option 3:</strong> <a href="https://console.groq.com/settings/billing" target="_blank" class="text-blue-600 dark:text-blue-400 underline font-bold">Dev Tier Upgrade کریں</a> unlimited tokens کے لیے</p>
-                            </div>
-                            <div class="flex gap-3 mt-4">
-                                <button onclick="openSettings()" class="flex-1 py-2 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all">
-                                    <i class="fa-solid fa-key mr-2"></i>نئی Key ڈالیں
-                                </button>
-                                <a href="https://console.groq.com" target="_blank" class="flex-1 py-2 bg-gray-800 hover:bg-gray-700 text-white font-bold rounded-xl transition-all text-center">
-                                    <i class="fa-solid fa-arrow-up-right-from-square mr-2"></i>Groq Console
-                                </a>
-                            </div>
-                        </div>
-                    </div>`;
-                }
-
-                // Generic error
-                return `<div class="my-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-5 text-right leading-loose">
-                    <h3 class="font-bold flex items-center justify-end gap-2 text-red-600 dark:text-red-400"><i class="fa-solid fa-triangle-exclamation"></i> Connection Error</h3>
-                    <p class="mt-2 text-sm text-red-600 dark:text-red-400">Groq API سے connection نہیں ہو پایا۔ انٹرنیٹ چیک کریں یا تھوڑی دیر بعد try کریں۔</p>
-                    <p class="mt-2 text-xs text-red-400 opacity-70">Details: ${error.message}</p>
+                return `<div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 text-red-600 dark:text-red-400">
+                    <h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> Connection Error</h3>
+                    <p class="mt-2 text-sm">Failed to connect to Groq API. Please verify your internet connection or check the browser console for details.</p>
+                    <p class="mt-2 text-xs opacity-70">Error Details: ${error.message}</p>
                 </div>`;
             }
         }
@@ -544,104 +467,6 @@ PHASE 2 ABSOLUTE RULES:
 
         // Boot Application
         window.onload = init;
-
-        // ⚙️ Settings Modal Logic
-        function openSettings() {
-            const modal = document.getElementById('settings-modal');
-            const input = document.getElementById('api-key-input');
-            const saved = localStorage.getItem('groq_api_key') || '';
-            // Show last 6 chars masked for security UX
-            input.value = saved;
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            setTimeout(() => input.focus(), 100);
-        }
-
-        function closeSettings() {
-            const modal = document.getElementById('settings-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        function saveApiKey() {
-            const input = document.getElementById('api-key-input');
-            const key = input.value.trim();
-            if (!key) {
-                document.getElementById('api-key-error').classList.remove('hidden');
-                return;
-            }
-            localStorage.setItem('groq_api_key', key);
-            document.getElementById('api-key-error').classList.add('hidden');
-            document.getElementById('api-key-saved').classList.remove('hidden');
-            setTimeout(() => {
-                document.getElementById('api-key-saved').classList.add('hidden');
-                closeSettings();
-            }, 1500);
-        }
-
-        function clearApiKey() {
-            localStorage.removeItem('groq_api_key');
-            document.getElementById('api-key-input').value = '';
-            document.getElementById('api-key-saved').classList.add('hidden');
-        }
-
-        // Close modal on backdrop click
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('settings-modal').addEventListener('click', function(e) {
-                if (e.target === this) closeSettings();
-            });
-        });
     </script>
-
-    <!-- ⚙️ Settings Modal -->
-    <div id="settings-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
-        <div class="w-full max-w-md bg-white dark:bg-[#111827] rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-            <!-- Modal Header -->
-            <div class="p-5 bg-gradient-to-r from-indigo-600 to-blue-600 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-                        <i class="fa-solid fa-key text-white text-lg"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-white font-bold text-lg">API Key Settings</h3>
-                        <p class="text-indigo-200 text-xs">آپ کی key صرف آپ کے browser میں محفوظ ہے</p>
-                    </div>
-                </div>
-                <button onclick="closeSettings()" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white transition-all">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <!-- Modal Body -->
-            <div class="p-6 space-y-4">
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                        <i class="fa-solid fa-robot mr-1 text-indigo-500"></i> Groq API Key
-                    </label>
-                    <input
-                        id="api-key-input"
-                        type="password"
-                        placeholder="gsk_xxxxxxxxxxxxxxxxxxxx"
-                        class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
-                    />
-                    <p id="api-key-error" class="hidden mt-2 text-red-500 text-xs">⚠️ Key خالی نہیں چھوڑ سکتے!</p>
-                    <p id="api-key-saved" class="hidden mt-2 text-emerald-500 text-xs font-bold">✅ Key محفوظ ہو گئی!</p>
-                </div>
-                <div class="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 text-sm text-blue-700 dark:text-blue-300 leading-relaxed">
-                    <i class="fa-solid fa-circle-info mr-1"></i>
-                    Free API Key حاصل کریں: <a href="https://console.groq.com" target="_blank" class="underline font-bold">console.groq.com</a>
-                    <br>آپ کی key صرف آپ کے device کے LocalStorage میں رہتی ہے — کہیں upload نہیں ہوتی۔
-                </div>
-                <div class="flex gap-3 pt-2">
-                    <button onclick="saveApiKey()" class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-floppy-disk"></i> Key Save کریں
-                    </button>
-                    <button onclick="clearApiKey()" class="px-4 py-3 border border-red-300 dark:border-red-700 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 font-semibold rounded-xl transition-all" title="Key ہٹائیں">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </body>
 </html>
