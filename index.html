@@ -344,14 +344,15 @@ PHASE 2 STEP ORDER:
                         </div>
                     `;
                 } else if (msg.role === 'assistant') {
-                    // DIRECT HTML INJECTION! No markdown parsers used.
+                    // Render HTML from AI, with markdown fallback converter
+                    const rendered = markdownToHTML(msg.content);
                     container.innerHTML += `
                         <div class="flex gap-4 items-start mb-8 w-full max-w-full">
                             <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-50 dark:bg-[#1e293b] border border-blue-200 dark:border-[#334155] flex items-center justify-center">
                                 <i class="fa-solid fa-robot text-blue-600 dark:text-neonAccent text-xl"></i>
                             </div>
                             <div class="flex-1 w-full min-w-0 font-sans tracking-normal select-text break-words pt-1" dir="rtl">
-                                ${msg.content}
+                                ${rendered}
                             </div>
                         </div>
                     `;
@@ -458,6 +459,31 @@ PHASE 2 STEP ORDER:
                     <p class="mt-2 text-xs opacity-70">Error Details: ${error.message}</p>
                 </div>`;
             }
+        }
+
+        // Markdown-to-HTML fallback converter
+        // Converts **bold**, *italic*, bullet lists, and newlines so even
+        // if the model outputs markdown instead of HTML, it still looks good.
+        function markdownToHTML(text) {
+            // If it already contains HTML tags, trust it and return as-is
+            if (/<[a-z][\s\S]*>/i.test(text)) return text;
+            
+            return text
+                // Bold: **text** or __text__
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/__(.+?)__/g, '<strong>$1</strong>')
+                // Italic: *text* or _text_
+                .replace(/\*(.+?)\*/g, '<em>$1</em>')
+                .replace(/_(.+?)_/g, '<em>$1</em>')
+                // Bullet points: lines starting with - or *
+                .replace(/^[\-\*] (.+)$/gm, '<li class="mr-4 mb-1">$1</li>')
+                .replace(/((<li[^>]*>.*<\/li>\n?)+)/g, '<ul class="list-disc text-right mb-4">$1</ul>')
+                // Headings: ### ## #
+                .replace(/^### (.+)$/gm, '<h3 class="text-lg font-bold my-3 text-indigo-600 dark:text-indigo-400">$1</h3>')
+                .replace(/^## (.+)$/gm, '<h2 class="text-xl font-bold my-4 text-indigo-600 dark:text-indigo-400">$1</h2>')
+                .replace(/^# (.+)$/gm, '<h1 class="text-2xl font-bold my-5 text-indigo-700 dark:text-indigo-300">$1</h1>')
+                // Newlines to <br>
+                .replace(/\n/g, '<br>');
         }
 
         // Utilities
